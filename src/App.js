@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import person from './Person/Person';
 import Person from './Person/Person';
 
 class App extends Component {
@@ -7,92 +8,82 @@ class App extends Component {
   state = {
     persons: [
       {
+        id: 'sdad4',
         name: 'Max',
         age: 28
       },
       {
+        id: 'ffdgf8',
         name: 'Manu',
         age: 29
-      }, {
+      },
+      {
+        id: 'hggf5',
         name: 'Stephanie',
         age: 25
       }
     ]
   }
 
-  switchNameHandler = (newName) => {
-    //console.log('was clicked')
-    // this is wrong this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        {
-          name: newName,
-          age: 28
-        },
-        {
-          name: 'Manu',
-          age: 29
-        }, {
-          name: 'Stephanie',
-          age: 27
-        }
-      ]
-    })
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => p.id === id);
 
-  }
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        {
-          name: 'Max',
-          age: 28
-        },
-        {
-          name: event.target.value,
-          age: 29
-        }, {
-          name: 'Stephanie',
-          age: 25
-        }
-      ]
-    })
+    const person = {...this.state.persons[personIndex]};
+    const persons = [...this.state.persons];
+
+    person.name= event.target.value;
+    persons[personIndex] = person;
+  
+    this.setState({persons:persons});
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+  }
+
+  deletePersonsHandler = (personsIndex) => {
+    //we want to copy the array so we avoid unpredictable apps.
+    //Always make changes to the copy rather than to a reference of the original array as that may lead to unpredictability
+    const persons = [...this.state.persons];
+    persons.splice(personsIndex, 1);
+    this.setState({ persons: persons });
+  }
   render() {
-    const style={
+    const style = {
       backgroundColor: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer'
     };
+
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonsHandler(index)}
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={(event) => this.nameChangedHandler(event, person.id)} />
+          })}
+        </div>);
+    }
     return (
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
       <div className="App">
         <h1>Hi, I'm Sara Misajlovska.</h1>
-        <button 
-        onClick={() => this.switchNameHandler('Maxus')}
-        style={style}
-        >Switch name</button>
-
-        <Person
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}
-          click={this.switchNameHandler.bind(this, 'Maximilian')} />
-
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age} 
-          changed = {this.nameChangedHandler}/>
-
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age}
-          click={this.switchNameHandler.bind(this, 'Max!!')}> 
-           My hobbies: Racing
-        </Person>
+        <button
+          onClick={this.togglePersonsHandler}
+          style={style}
+        >Toggle persons</button>
+        {persons}
       </div>
+
     );
 
     // return React.createElement( 'div',{className:'App'},React.createElement('h1',null, 'Hi, I\'m Sara Misajlovska!!! This works'))
