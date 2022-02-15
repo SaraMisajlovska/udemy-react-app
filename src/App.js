@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import person from './Person/Person';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
@@ -23,24 +24,24 @@ class App extends Component {
         age: 25
       }
     ]
-  }
+  };
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
 
-    const person = {...this.state.persons[personIndex]};
+    const person = { ...this.state.persons[personIndex] };
     const persons = [...this.state.persons];
 
-    person.name= event.target.value;
+    person.name = event.target.value;
     persons[personIndex] = person;
-  
-    this.setState({persons:persons});
-  }
+
+    this.setState({ persons: persons });
+  };
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({ showPersons: !doesShow });
-  }
+  };
 
   deletePersonsHandler = (personsIndex) => {
     //we want to copy the array so we avoid unpredictable apps.
@@ -48,7 +49,8 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons.splice(personsIndex, 1);
     this.setState({ persons: persons });
-  }
+  };
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -63,15 +65,18 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person
+            return <ErrorBoundary key={person.id}> 
+              <Person
               click={() => this.deletePersonsHandler(index)}
               name={person.name}
               age={person.age}
               key={person.id}
               changed={(event) => this.nameChangedHandler(event, person.id)} />
+            </ErrorBoundary>
           })}
         </div>);
-    }
+    };
+
     return (
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
