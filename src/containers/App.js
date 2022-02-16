@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import person from './Persons/Person/Person';
-import Person from './Persons/Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+
 
 class App extends Component {
 
@@ -64,16 +64,11 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id}> 
-              <Person
-              click={() => this.deletePersonsHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
-            </ErrorBoundary>
-          })}
+          <Persons
+          persons = {this.state.persons}
+          clicked = {this.deletePersonsHandler}
+          changed = {this.nameChangedHandler}
+          />
         </div>);
     };
 
@@ -81,11 +76,7 @@ class App extends Component {
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
       <div className="App">
-        <h1>Hi, I'm Sara Misajlovska.</h1>
-        <button
-          onClick={this.togglePersonsHandler}
-          style={style}
-        >Toggle persons</button>
+        // posledno stignav do 81 ama sum gi skoknala module 5
         {persons}
       </div>
 
