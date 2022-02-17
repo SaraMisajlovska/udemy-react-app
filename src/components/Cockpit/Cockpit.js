@@ -1,18 +1,32 @@
 import React from "react";
-
+import classes from "./Cockpit.css"
 
 const cockpit = (props) => {
 
+    const aClasses = [];
+    let btnClass = '';
+
+
+    if (props.showPersons) {
+        btnClass = classes.Red;
+    }
+    if (props.persons.length <= 2) {
+        aClasses.push(classes.red);
+    }
+    if (props.persons.length <= 1) {
+        aClasses.push(classes.bold);
+    }
+
     return (
-        <div>
+        <div className={classes.Cockpit}>
             <h1>Hi, I'm Sara Misajlovska.</h1>
-            <p className="{assignedClasses.join(' ')}">This is real, this is mee</p>
+            <p className={aClasses.join(' ')}>This is real, this is mee</p>
             <button
-                onClick={this.togglePersonsHandler}
+                onClick={props.clicked}
                 className={btnClass}
             >
                 Toggle persons
-            </button>);
+            </button>
         </div>
     );
 };

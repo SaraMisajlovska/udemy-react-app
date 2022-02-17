@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons';
-import classes  from './App.css'
+import classes from './App.css'
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
 
@@ -28,7 +28,6 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
-
     const person = { ...this.state.persons[personIndex] };
     const persons = [...this.state.persons];
 
@@ -52,54 +51,28 @@ class App extends Component {
   };
 
   render() {
-     let persons = null;
-     let btnClass='';
+    let persons = null;
+
     if (this.state.showPersons) {
       persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <Person
-                click={() => this.deletePersonsHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={(event) => this.nameChangedHandler(event, person.id)} />)
-          })}
-        </div>);
-
-        btnClass = classes.Red;
-     
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonsHandler}
+          changed={this.nameChangedHandler}
+        />
+      );
     };
 
-    const aClasses = [];
-
-    if (this.state.persons.length <= 2) {
-      aClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1) {
-      aClasses.push(classes.bold);
-    }
-    
     return (
-      //this is jsx code, not html even though it looks like it 
-      //bind syntax is better than arrow function for switch name 
-      
-        <div className={classes.App}>
-        <h1>Hi, I'm Sara Misajlovska.</h1>
-        <p className={aClasses.join(' ')} >A working solution</p>
-        <button
-          className={btnClass}
-          onClick={this.togglePersonsHandler}
-          
-        >Toggle persons</button>
+      <div className={classes.App}>
+        <Cockpit
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked = {this.togglePersonsHandler}
+        />
         {persons}
       </div>
-      
-
     );
-
-    // return React.createElement( 'div',{className:'App'},React.createElement('h1',null, 'Hi, I\'m Sara Misajlovska!!! This works'))
   }
 }
 
