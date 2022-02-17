@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium, {StyleRoot} from 'radium';
+
 import person from './Person/Person';
 import Person from './Person/Person';
 
@@ -58,11 +58,7 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
+      cursor: 'pointer'
     };
 
     let persons = null;
@@ -81,10 +77,7 @@ class App extends Component {
         </div>);
 
       style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+     
     };
 
     const classes = [];
@@ -95,13 +88,11 @@ class App extends Component {
     if (this.state.persons.length <= 1) {
       classes.push('bold');
     }
-
-
-
+    
     return (
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
-      <StyleRoot>
+      
         <div className="App">
         <h1>Hi, I'm Sara Misajlovska.</h1>
         <p className={classes.join(' ')} >A working solution</p>
@@ -111,7 +102,6 @@ class App extends Component {
         >Toggle persons</button>
         {persons}
       </div>
-      </StyleRoot>
       
 
     );
@@ -120,4 +110,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;
