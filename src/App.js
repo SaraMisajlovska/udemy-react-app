@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
-
-import person from './Person/Person';
+import classes  from './App.css'
 import Person from './Person/Person';
 
 class App extends Component {
@@ -52,16 +50,8 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
-    let persons = null;
+     let persons = null;
+     let btnClass='';
     if (this.state.showPersons) {
       persons = (
         <div>
@@ -76,29 +66,30 @@ class App extends Component {
           })}
         </div>);
 
-      style.backgroundColor = 'red';
+        btnClass = classes.Red;
      
     };
 
-    const classes = [];
+    const aClasses = [];
 
     if (this.state.persons.length <= 2) {
-      classes.push('red');
+      aClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      aClasses.push(classes.bold);
     }
     
     return (
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
       
-        <div className="App">
+        <div className={classes.App}>
         <h1>Hi, I'm Sara Misajlovska.</h1>
-        <p className={classes.join(' ')} >A working solution</p>
+        <p className={aClasses.join(' ')} >A working solution</p>
         <button
+          className={btnClass}
           onClick={this.togglePersonsHandler}
-          style={style}
+          
         >Toggle persons</button>
         {persons}
       </div>
