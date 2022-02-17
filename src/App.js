@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import person from './Person/Person';
 import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
@@ -53,7 +52,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -65,23 +65,36 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <ErrorBoundary key={person.id}> 
+            return (
               <Person
-              click={() => this.deletePersonsHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
-            </ErrorBoundary>
+                click={() => this.deletePersonsHandler(index)}
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)} />)
           })}
         </div>);
+
+      style.backgroundColor = 'red';
     };
+
+    const classes = []; 
+
+    if (this.state.persons.length<=2) {
+      classes.push('red');
+    }
+    if (this.state.persons.length<=1) {
+      classes.push('bold');
+    }
+
+
 
     return (
       //this is jsx code, not html even though it looks like it 
       //bind syntax is better than arrow function for switch name 
       <div className="App">
         <h1>Hi, I'm Sara Misajlovska.</h1>
+        <p className={classes.join(' ')} >A working solution</p>
         <button
           onClick={this.togglePersonsHandler}
           style={style}
