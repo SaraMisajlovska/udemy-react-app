@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Persons from '../components/Persons/Persons';
-import classes from './App.css'
-import Cockpit from '../components/Cockpit/Cockpit'
+import classes from './App.css';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
 
@@ -66,6 +66,7 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <Cockpit
+          appTitle={this.props.title}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked = {this.togglePersonsHandler}
