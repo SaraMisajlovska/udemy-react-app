@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './App.css';
 import Persons from '../components/Persons/Persons';
 import classes from './App.css';
@@ -6,7 +6,9 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import Aux from '../hoc/Auxilliary';
 import withClass from '../hoc/withClass';
 
-class App extends Component {
+export const AuthContext = React.createContext(false);
+
+class App extends PureComponent {
 
   state = {
     persons: [
@@ -25,7 +27,9 @@ class App extends Component {
         name: 'Stephanie',
         age: 25
       }
-    ]
+    ],
+    togglePersons: 0,
+    authenticated: false
   };
 
   nameChangedHandler = (event, id) => {
@@ -41,7 +45,12 @@ class App extends Component {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({ showPersons: !doesShow });
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        togglePersons: prevState.togglePersons + 1
+      }
+    })
   };
 
   deletePersonsHandler = (personsIndex) => {
@@ -51,6 +60,10 @@ class App extends Component {
     persons.splice(personsIndex, 1);
     this.setState({ persons: persons });
   };
+
+  login = () => {
+    this.setState({ authenticated: true });
+  }
 
   render() {
     let persons = null;
@@ -72,8 +85,12 @@ class App extends Component {
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler}
+          login={this.login}
         />
-        {persons}
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
+        
       </Aux>
     );
   }
